@@ -1,0 +1,352 @@
+@charset "utf-8";
+
+/* 기본 가로 사이즈를 설정해준다. */
+body {min-width: 1280px;}
+
+
+/* 헤더 영역 */
+header {text-align: center; height: 81px; position: relative;}
+header h1 {position: absolute; left: 50px; top: 0; padding: 14px 0 0;}
+header h1 a {display: block; width: 110px; height: 48px; color: transparent;
+background: url(../images/sp_com.png) no-repeat -300px 0;}
+
+header .lnb li {display: inline-block;}
+/* 
+위아래 패딩을 주면 줄간격이 먹히지 않기때문에 주의해야한다. 
+접근성을 위해서 a태그에 높이와 좌우로패딩을 줌으로서 a 링크 클릭너비를 늘려준다.
+*/
+header .lnb li a {display: block; height: 81px; padding: 0 35px; font-size: 17px; color: #333; line-height: 81px;}
+header .lnb li a:hover {color: #2d5b79; font-weight: bold;}
+/* 새로만든 span 태그가 기준이 되어야한다. */
+header .lnb li a span {position: relative;}
+/* 
+1. 밑줄을 떨어뜨리기위해 그려주어야한다 보통 before 나 after을 이용한다 
+2. 하지만 여기서 a 링크를 키워놧기때문에 범위가 길어진다 html 태그에 span 태그를 추가해준다
+3. after 도 span after로 변경해준다
+4. a:hover 로 변경해주고 bottom -10px 설정한다 
+*/
+header .lnb li a:hover span:after {
+    content: ""; 
+    position: absolute;
+    left: 0; bottom: -10px;
+    display: block;
+    width: 100%; height: 1px; 
+    background: #2d5b79;
+}
+
+header .spot {position: absolute; right: 50px; top: 0;}
+header .spot li {position: relative; float: left;}
+/* 접근성을 위해서 똑같이 링크범위를 넓혀준다 */
+header .spot li a {display: block; height: 81px; padding: 0 10px; line-height: 81px;}
+/* 좌우측 50픽셀을 맞춰주기 위해서 오른쪽 여백을 제거한다 */
+header .spot li:last-child a {padding-right: 0;}
+header .spot li:after {
+    content: "";
+    width: 1px; height: 7px;
+    position: absolute;
+    background: #ccc;
+    left: 0; top: 50%;
+    transform: translate(-50%,-50%);
+}
+/* 첫번째에 있는 after 막대모양을 제거해준다 */
+header .spot li:first-child:after {display: none;}
+
+
+/* 비주얼 영역 */
+/* 사진 안에있는 버튼과 글씨들이 보여지기위해서 비주얼 영역이 기준점이된다. */
+.visual {position: relative; padding: 0 50px;}
+
+/* .con 클래스안에 자식 div 태그에 높이를 지정함으로써 배경 이미지가 나오게 설정해준다. */
+.visual .con > div {height: 640px;}
+.visual .con .slide {background: url(../images/bg_main01.jpg) no-repeat center;
+color: #fff; font-size: 32px; line-height: 46px; }
+.visual .con .slide p {font-size: 20px; padding-top: 19px; line-height: 100%;}
+/* 포토샵을 이용해서 위치값을 확인한다. left 50% 줌으로써 화면이 줄어들어도 글자가 깨지지않게 한다. */
+.visual .con .slide .txt {position: absolute; left: 50%; top: 150px;}
+
+
+/* 공통적인 요소들을 먼저 지정해준다. 포지션값으로 가운데로 정렬하고 이미지 스트라이프 기능을 이용해서
+공통요소인 이미지와 높이와 넓이 값을 확인해서 넣어준다. */
+.slide .prev,
+.slide .next {display: block; position: absolute; top: 50%; transform: translate(-50%,-50%); z-index: 10;
+width: 25px; height: 47px; background: url(../images/sp_com.png) no-repeat; color: transparent;}
+/* 포토샵을 이용해서 패팅50xp 값과 + 32px 각각 거리를 계산, 이미지 스트라이프 포지션 위치값은 리베하얀 영상참고 */
+.slide .prev {left: 82px; background-position: -128px -60px;}
+.slide .next {right: 82px; background-position: -158px -60px;}
+
+
+/* 슬라이드 공통영역 */
+/* 버튼부분과 li태그를 이미지가 추후에 늘어날수 있기 때문에 두가지를 한번에 묶어주는 div 태그를 html에 추가한다.
+포지션 앱솔루트 상태에서는 가로사이즈가 100% 이기때문에 text-align 센터 값이 안먹기 때문에 가로사이즈를 100% 초기화해준다. */
+.slide .control {position: absolute; left: 0; bottom: 55px; text-align: center; width: 100%;}
+/* 새로생성한 div 태그에 인라인블록 요소를 해줌으로써 가운데로 정렬되게 해주고 오른쪽으로 패딩을 45픽셀 지정한다. */
+.slide .control > div {display: inline-block; position: relative; padding: 0 45px 0 0;}
+/* 시작과 일시정지 버튼을 오른쪽으로 정렬시켜준다. */
+.slide .control > div > div {position: absolute; right: 0;}
+/* 시작과 다음버튼의 공통요소인 높이와 가로값을 포토샵으로 확인후 지정해준다. 인라인블록으로 지정해서 한줄로나오게 해준다. 
+오버플로우 히든으로해서 어긋나지 않게 지정해준다. 오버플로우히든은 가로세로 사이즈가 지정이되면 사용가능하다. */
+.slide .control > div > div a {display: inline-block; width: 8px; height: 9px; overflow: hidden; 
+background: url(../images/sp_com.png) no-repeat; margin-right: 7px; opacity: 0.5;}
+/* 액티브되었을때 on 일경우 오파시티를 1로 지정해서 더 색감을 부여하고 그렇지 않을경우는 오파시티를 0.5로 지정해서
+불투명하게 지정을 해준다. 오파시티 0.5를 위의 상위 태그에 추가한다. */
+.slide .control > div > div a.on {opacity: 1;}
+/* 위치값만 포토샵으로 확인후 포지션값을 지정해준다. */
+.slide .control > div > div a.play {background-position: -108px -72px;}
+.slide .control > div > div a.pause {background-position: -108px -60px;}
+/* 한줄로 보이게 ul, li 태그를 인라인블록 형식을 만들어준다. 
+포지션과 탑값을 지정한 이유는 ul 태그와 버튼 div 태그를 일자로 맞춰주기위해서 이다. */
+.slide .control ul {display: inline-block; font-size: 0; position: relative; top: -7px;}
+/* 
+인라인블록은 자동으로 여백이 생기게된다. 이경우 여백을 없애주기위해서는 2가지의 방법이있다 
+1. html 태그를 한줄로 처리를 하는것이다. 줄내림을 할경우는 여백이 생기게되는것이다. 
+2. 상위부모인 ul 에다가 font-size : 0 을 주게되면 해결된다. (이 방법 추천)
+-> 좌우로 패딩을 3픽셀을 지정해서 총 6픽셀의 공간이 벌어지게 만들어준다.
+*/
+.slide .control li {display: inline-block; padding: 0 3px;}
+.slide .control li.on a {background: #fff;}
+/* 블록성질로 바꾸어서 하얀투명색 배경으로 긴 막대를 생성한다. */
+.slide .control li a {display: block; width: 50px; height: 3px; background: rgba(255,255,255,0.5);}
+.slide .control a {color: transparent;}
+
+
+/* 제품정보 영역 */
+.product a {color: #001829; font-size: 15px;}
+.product a:hover {color: #2d5b79; font-weight: bold;}
+/* 이미지의 배경을 삽입하기위해서 가상의 요소인 before을 이용해주고 기본적으로 배경을 지정한다.
+content는 인라인 요소 이기때문에 가로 세로값을 지정해주기 위해서 블록 요소로 바꿔준다. */
+.product a:before {
+    content: "";
+    background: url(../images/sp_com.png) no-repeat;
+    display: block;
+    width: 64px; height: 52px;
+    margin: 0 0 26px;
+}
+/* 가운데 정렬을 하기위해서 ul 태그를 범위를 계산해서 가로사이즈를 지정한다. li 하나의요소의 사이즈가 174이므로 
+174가 6개가 있다 따라서 174 * 6 개를해서 1044픽셀이 가로사이즈가된다. ul이 블록요소이기때문에 마진 0 오토를 지정한다. 
+.product ul {width: 1044px; margin: 0 auto; padding: 46px 0 41px;}
+*/
+/*가운데로 정렬를 해주기위해서 한쪽으로만 여백을 주는것이 아니라 양쪽으로 여백을 줘야한다 따라서
+포토샵에서 이미지의 여백을 계산해서 반으로 나누어준다. 그래야 가운데 정렬이 제대로 들어간다.
+.product li {float: left; text-align: center; padding: 0 55px;}
+*/
+
+/* 하지만 위의 소스에서는 문제가 있다 li 요소들이 추가되거나 제거되는경우 가로사이즈와 float left를 지정하게되면
+정렬이 깨지기 때문에 유동적으로 해주기위해서는 ul 태그에 가로사이즈를 제거하고 마진0 auto 도 제거한다.
+text-align 센터를 주게되고 li 태그에 display 인라인 블록을 지정해준다*/
+.product ul {text-align: center; padding: 46px 0 41px; font-size: 0;}
+.product li {display: inline-block; text-align: center; padding: 0 55px;}
+
+/* 배경이미지를 컨트롤하기위해서 첫번째 자식에 a:before을 선택한다. */
+.product li:nth-child(1) a:before {background-position: -3px -118px;}
+.product li:nth-child(2) a:before {background-position: -75px -118px;}
+.product li:nth-child(3) a:before {background-position: -147px -118px;}
+.product li:nth-child(4) a:before {background-position: -219px -118px;}
+.product li:nth-child(5) a:before {background-position: -291px -118px;}
+.product li:nth-child(6) a:before {background-position: -363px -118px;}
+/* 마우스를 올리면 색깔이 변하는 소스 */
+.product li:nth-child(1) a:hover:before {background-position: -3px -184px;}
+.product li:nth-child(2) a:hover:before {background-position: -75px -184px;}
+.product li:nth-child(3) a:hover:before {background-position: -147px -184px;}
+.product li:nth-child(4) a:hover:before {background-position: -219px -184px;}
+.product li:nth-child(5) a:hover:before {background-position: -291px -184px;}
+.product li:nth-child(6) a:hover:before {background-position: -363px -184px;}
+
+
+/* 매거진 영역 */
+/* 포지션 랠러티브로 공통슬라이드영역의 버튼이 이미지 안에 삽입되게 해준다.
+전체의 가로와세로값을 확인 한후 높이값을 설정해서 지정해준다. */
+.magazine {position: relative; background: #dfd9d1; height: 670px; overflow: hidden;}
+/* 한줄짜리 텍스트는 줄간격이 존재하게때문에 line-height: 100%; 줄간격을 초기화해준다. */
+.magazine h2 {font-size: 28px; color: #000; text-align: center; padding: 50px 0 16px; line-height: 100%;}
+.magazine p {text-align: center; font-size: 14px; color: #3a3b36; line-height: 100%;}
+
+/* 이미지의 크기를 줄이고 정렬을하기위해서 전체 슬라이드박스의 자식 div태그에 가로와 세로사이즈를 지정한다.  */
+/* slide 박스 컨텐츠를 가운데로 지정해주기위해서 slide > div 에 포지션을 앱솔루트 지정한다. 왼쪽으로 50%만큼 지정을해주고
+왼쪽으로 50% 이동한경우 다시 가운데로 지정해주기위해서는 transform에 translate 을 이용한다.
+그리고 h2와 p와의 간격을 떨어뜨리기위해서 top값을 150으로 지정하는데 그이유는 매거진에 포지션일 랠러티브로 있기때문에 그만큼의 여백을
+다 합쳐서 150픽셀이라는 결과가 나온다. p에서 박스만큼이아닌 전체 위에서부터 거리를 잰다. */
+.magazine .slide_box > div {width: 1180px; height: 430px; position: absolute; left: 50%; top: 150px; transform: translate(-50%,0);}
+
+/* 첫번째 자식에 왼쪽영역을 표현해주기위해 사이즈를 재서 전체 1180에 + 100만큼 사이즈를 더해서 설정해준다.
+세번째 자식을 right가 아닌 left도 마진을 줘서 양수로 표현해준다. 하지만 스크롤이 생기는 문제가 발생한다. 
+이를 해결해주기위해서는 매거진에 오버플로우 히든을 한다. */
+.magazine .slide_box > div:nth-child(1) {margin-left: -1280px;}
+.magazine .slide_box > div:nth-child(3) {margin-left: 1280px;}
+/* 이미지사이즈를 포토샵으로 확인한후 가로와 세로 사이즈를 주고 나머지 부분은 보여주지 않기 위해서 오버플로우를 히든으로 지정한다. */
+.magazine .slide_box .left {position: relative; float: left; width: 800px; height: 430px; overflow: hidden;}
+/* 위에서 지정한 크기만큼 가로사이즈가 100% 다나오게끔 설정한다. */
+.magazine .slide_box .left img {width: 100%;}
+/* 
+이미지에 검은색 배경 글씨는 나타나게해주기위해서 html 코드에 h3 태그상위에 div 태그를하나 추가시켜준뒤 
+포지션 값을 지정해서 위치를 지정해준다. left 클래스 영역을 기준점으로 지정해준다.
+그다음 포토샵으로 검은색영역의 박스안의 가로와 세로값을 확인해서 지정한다. 여기서 가로사이즈만 작성해주고 높이값은 100% 해준다. 
+박스안쪽에 패딩값을 확인해서 위쪽과 왼쪽오른쪽에 영역을 지정해준뒤 패딩을 지정해주면 가로값을 수정을 해줘야하는데
+이경우 박스사이징 보더 박스를 이용해서 해결해준다
+*/
+.magazine .slide_box .left div {background: rgba(0,0,0,0.5); position: absolute; right: 0; top: 0;
+width: 200px; height: 100%; padding: 47px 20px 0; box-sizing: border-box;}
+.magazine .slide_box .left div h3 {color: #fff; font-size: 20px; line-height: 32px;}
+.magazine .slide_box .left div h3 span {font-weight: normal; display: block;}
+.magazine .slide_box .left div p {font-size: 16px; color: #fff; text-align: left; line-height: 24px; padding-top: 9px;}
+/* 포토샵으로 버튼의 가로와 세로 사이즈의 위치를 확인해서 지정해주고 버튼의 위치를 조정해주기 위해서는 포지션값을 이용해서 
+오른쪽과 아래쪽으로 위치를 계산해서 지정해준다. */
+.magazine .slide_box .left div a {display: block; width: 165px; height: 45px; border: 1px solid #fff; 
+color: #fff; font-size: 16px; text-align: center; line-height: 45px; position: absolute; right: 20px; bottom: 40px;}
+
+/* 오른쪽 영역의 가로와 세로사이즈를 확인해서 지정해준다. 패딩으로 여백을 주고 가로사이즈를 변경하지않고
+박스 사이징을 이용해서 해결한다. */
+.magazine .slide_box .right {float: right; width: 380px; height: 430px; background: #fff; padding: 20px 20px 0;
+box-sizing: border-box;}
+/* 밑으로 여백을 지정을 해주고 위의 상위 태그에 옵션을 변경을해준다 기존에 전체 여백 20px 을 주었던것을 아래는 0으로 설정해준다  */
+.magazine .slide_box .right li {padding-bottom: 20px;}
+/* 블록으로 성질을 변경해서 가로사이즈가 100% 되게 설정해주고 여백을 왼쪽으로 값을 지정해주고 그 안에 이미지를 
+포지션 값을 이용해서 넣어준다. a 태그가 기준점이된다. */
+.magazine .slide_box .right li a {display: table; width: 100%;}
+/* 글자를 가운데로 지정하기위해서는 패딩을 주면 안된다 그이유는 글자가 두줄이 될수도 있기때문이다. 그래서
+세로 가운데 정렬을해줘야한다 이때 플렉스나 display table을 이용한다. 디스플레이 테이블을 하기위해서는 두번 감싸준다
+right에 있던 li a 태그에 디스플레이 블록을 테이블로 변경해준다. 그리고 html 태그에 테이블안에 div를 하나 추가해서 감싼다.
+그리고 상위태그에 코드를 디스플레이 테이블만 남겨주고 아래코드를 새로 만들어서 li a 태그에있던 태그를 아래로 복사한후 디스플레이
+table-cell을 추가해준다. table-cell 이라는것은 td 를 의미하고 display: table은 테이블 요소를 의미한다.
+그다음 테이블셀에 높이를 지정을 해준다. 그다음 vertical-align: middle 로 가운데로 설정 한다. 
+클릭범위를 늘려주기위해 상위 태그에 가로값을 지정해준다. 100%를 추가해주자*/
+.magazine .slide_box .right li a div {padding: 0 0 0 100px; position: relative; font-size: 16px; color: #333; 
+display: table-cell; height: 82px; vertical-align: middle;}
+.magazine .slide_box .right li a img {position: absolute; left: 0; top: 0;}
+.magazine .slide_box .right li a strong {font-size: 13px; color: #000; display: block;}
+
+/* 컨트롤러의 위치를 조정해주기위해서 공통영역의 소스를 수정하는것이 아닌 매거진에 slide가 붙었을때 컨트롤러의 위치를 수정해준다 */
+.magazine.slide .control {bottom: 48px;}
+/* 좌우의 화살표가 이미지의 크기에 맞게 설정되게 하기위해서 위치를 재설정해준다. 그리고 공통요소에 z-index를 추가해서 보여준다. 
+그다음 문제는 z-index를 설정하게되면 이미지 가운데에 화살표가 나타나게된다. 이를 해결하기위해서는 리베하얀의 영상을 참고하여 
+왼쪽 변으로부터 얼마만큼가는지를 계산을 해야한다. 페이지의 가운데를 먼저 기준을 잡고 마켓툴로 잡고 가이드선 가운대로 쓰고 스냅을 걸어준다.
+그 상태에서 왼쪽에서 왼쪽 버튼만큼의 가로사이즈를 잰다. 그다음 마진으로 왼쪽으로 값을 넣어준다. 오른쪽도 마찬가지이다.
+그다음 정확하게 가운데로 지정해주기 위해서 전체가운데가 아닌 사각형의 가운데로 지정해준다 전체가운대를 확인해서 가이드선을 그어주고 
+이미지만큼의 여백을 계산한다. 그리고 마진을 재설정한다.
+*/
+.magazine.slide .prev {left: 50%; margin: 26px 0 0 -640px;}
+.magazine.slide .next {right: 50%; margin: 26px -640px 0 0;}
+
+
+/* 배너 및 검색영역 */
+/* 패딩을 밑으로 추가했는데 적용이 되지않는다. 그이유는 float : left를 준다음 그 상위 태그에 clear를 안해줘서 그렇다
+html 태그로 돌아가서 clear class 를 추가한다. float를 준 부모는 높이가 초기화 되기때문이다. 높이를 살려줘야한다. */
+.notice {padding: 0 0 100px;}
+/* 가운데를 정렬하기위해서 가로값을 확인해서 넣어준다 */
+.notice > div {width: 1180px; margin: 0 auto; padding: 55px 0;}
+.notice .top > ul {float: left;}
+/* 가로와 세로사이즈를 확인해서 넣어주고 가운데로 정렬한다. 위로 패딩이 값을 주고 boxsizing을 이용해서 가로값을 유지시켜준다. */
+.notice .top > ul li a {display: block; width: 280px; height: 280px; text-align: center; padding-top: 100px; 
+box-sizing: border-box; font-size: 17px; color: #fff; font-weight: bold; transition: all 0.5s;}
+.notice .top > ul li a span {display: block; position: relative; padding-top: 30px; font-size: 14px;
+top: 10px; opacity: 0; transition: all 0.5s;}
+.notice .top > ul li a:hover { background: rgba(45,91,121,0.5);}
+.notice .top > ul li a:hover span {top: 0; opacity: 1;}
+/* 이미지들을 각각옆으로 배치시키위해서 왼쪽 정렬한다. */
+.notice .top > ul li {float: left; padding-right: 20px;}
+.notice .top > ul li:nth-child(1) {background: url(../images/bg_key_link01.jpg) no-repeat;}
+.notice .top > ul li:nth-child(2) {background: url(../images/bg_key_link02.jpg) no-repeat;}
+.notice .top > ul li:nth-child(3) {background: url(../images/bg_key_link03.jpg) no-repeat;}
+.notice .top > ul li:nth-child(2) a {color: #000;}
+/* 오른쪽영역을 배치시키위해서 위에 .top > ul 태그를 왼쪽으로 배치시켜주고 아래쪽태그 .top > div 는 왼쪽으로 배치를 시켜주면 
+전체검색 select 태그 밑으로 input과 div 버튼이 배치되게된다. 그리고 위에 .notice 태그에 패딩을 밑으로 추가한다.
+위에서 작업을 완료했다면 다시돌아와서 가로와 세로사이즈를 지정해주고 여백도 지정해준다. 
+여백을 주었기때문에 box-sizing을 이용해줘서 박스안에 크기만큼 유지될수있도록 설정해준다.*/
+.notice .top > div {float: left; width: 280px; height: 280px; background: #f2f0ed; padding: 36px 20px 0;
+box-sizing: border-box;}
+.notice .top > div > div {padding-bottom: 10px;}
+.notice .top > div h2 {font-size: 17px; color: #000; text-align: center; padding-bottom: 29px;}
+.notice .top > div select, 
+.notice .top > div input {width: 100%; height: 45px; border: none; text-indent: 20px;}
+
+/* placeholder 속성을 사용할때는 아래와같이 webkit을 이용한다 */
+.notice .top > div input::-webkit-input-placeholder {color: #949394; font-size: 14px;}
+.notice .top > div a {display: block; height: 45px; line-height: 45px; text-align: center; color: #fff; 
+font-size: 15px; background: #2d5b79; margin-top: 20px;}
+
+
+/* 공지, 뉴스 게시물 */
+/* 패딩이 먹히지 않는 이유는 class top 부분에 clear class를 해주지 않아서 먹히지가 않는다. */
+.notice article {padding-top: 20px;}
+/* 먼저 공통요소인 자식 div의 위치와 가로사이즈와 배경을 설정을 해준다. 그후 왼쪽으로 배치시킨다.
+그다음 더보기 요소를 넣어주기위해서 기준점으로 포지션값을 준다.*/
+.notice article > div {float: left; width: 580px; background: #f2f0ed; position: relative;}
+.notice article > div a {font-size: 16px; color: #424241;}
+.notice article > div a p {font-size: 12px; color: #979797;}
+.notice article > div h2 {font-size: 24px; color: #2d5b79; text-align: center; height: 77px; line-height: 77px;
+border-bottom: 1px solid #fff;}
+
+/* a 태그인 인라인상태에서 포지션이 붙게되면 자동으로 블록상태가되서 가로세로를 줄수있다.
+border-radius를 높이만큼주면 동그라미가 만들어진다. */
+.notice article > div > a {position: absolute; right: 24px; top: 24px; width: 30px; height: 30px;
+border-radius: 30px; color: transparent; background: url(../images/sp_com.png) no-repeat -196px -60px #fff;}
+/* 영역을 왼쪽으로 배치하고 가로를 50%만큼 반반으로 나눈뒤 패딩을 주고 박스사이징을 써써 박스크기만큼만 유지되도록한다. */
+.notice article .left ul li {float: left; width: 50%; padding: 35px; box-sizing: border-box; border-left: 1px solid #fff;}
+.notice article .left ul li:first-child {border-left: none;}
+/* 한줄자리 줄을 만들기위해서 html의 li 태그에 span 태그를 추가해준다.  */
+.notice article .left ul li span {display: block; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+line-height: 100%;}
+.notice article .left ul li p {padding: 22px 0 16px; line-height: 100%;}
+.notice article .left ul li div {line-height: 21px;}
+/* 오른쪽 영역으로 배치를시킨다. */
+.notice article .right {float: right;}
+.notice article .right ul li {position: relative; border-bottom: 1px solid #fff;}
+.notice article .right ul li:last-child {border-bottom: none;}
+.notice article .right ul li a {display: block; height: 60px; line-height: 60px; text-indent: 30px; width: 400px;
+overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.notice article .right p {position: absolute; right: 30px; top: 0;}
+
+
+/* 배너 영역 */
+.banner {background: url(../images/bg_main_business.jpg) no-repeat center top; padding: 55px 0;}
+.banner ul {display: flex; width: 1180px; margin: 0 auto;}
+.banner ul li {flex: 1; padding: 0 0 0 20px;}
+.banner ul li:first-child {padding: 0;}
+.banner ul li a {display: block; text-align: center; font-size: 14px; color: #3e413d; height: 390px; 
+padding-top: 303px; box-sizing: border-box;}
+.banner ul li:nth-child(1) a {background: url(../images/bg_business_link01.jpg) no-repeat;}
+.banner ul li:nth-child(2) a {background: url(../images/bg_business_link02.jpg) no-repeat;}
+.banner ul li:nth-child(3) a {background: url(../images/bg_business_link03.jpg) no-repeat;}
+.banner ul li:nth-child(4) a {background: url(../images/bg_business_link04.jpg) no-repeat;}
+.banner ul li a strong {display: block; font-size: 23px; color: #000;}
+
+
+/* 푸터 영역 */
+footer .top {background: #383f43;}
+footer .top > div {width: 1180px; margin: 0 auto; padding: 13px 0;}
+footer .top > div ul {float: left;}
+/* a가 아닌 li에 패딩을 주는 이유는 패딩범위만큼 선택이되면 안되기 때문이다. 순수하게 텍스트만 클릭이되기 위함이다. */
+footer .top > div ul li {float: left; padding-right: 19px; position: relative;}
+footer .top > div ul li:after {
+    content: "";
+    position: absolute;
+    right: 9px; top: 50%;
+    width: 1px; height: 8px;
+    background: #70767a;
+    margin-top: -4px;
+}
+footer .top > div ul li:last-child:after {display: none;}
+
+footer .top > div ul li a {font-size: 13px; color: #fff; line-height: 45px;}
+footer .top > div div {float: right;}
+footer .top > div div p {display: inline-block; background: #2a3033; color: #fff; width: 242px; height: 42px;
+text-align: center; line-height: 42px; font-size: 13px;}
+footer .top > div div p strong {font-size: 20px; padding-left: 15px;}
+footer .top > div div select {padding-left: 21px; color: #191919; font-size: 12px; width: 200px; height: 45px;
+box-sizing: border-box; border: none; vertical-align: 3px; margin-left: 10px;}
+
+footer .bottom {background: #4c5459; padding: 40px 0 44px; text-align: center;}
+footer .bottom p {display: inline-block; background: url(../images/sp_com.png) no-repeat -150px 0; 
+width: 131px; height: 51px; color: transparent;}
+footer .bottom ul {padding: 32px 0 14px;}
+footer .bottom ul li {display: inline-block; padding: 0 10px; position: relative;}
+footer .bottom ul li a {color: #fff; font-size: 14px;}
+footer .bottom ul li:after {
+    content: "";
+    position: absolute;
+    width: 1px; height: 8px;
+    left: 0; top: 50%;
+    margin-top: -4px;
+    background: #fff;
+}
+footer .bottom ul li:first-child:after {display: none;}
+footer .bottom address {color: #fff; font-size: 14px; padding-top: 20px;}
